@@ -29,10 +29,8 @@ namespace MauiApp1
         static void RegisterViews(IServiceCollection services)
         {
             services.AddTransient<MainPageViewModel>();
-            //services.AddTransient<MyPopupViewModel>();
             services.AddTransient<MainPage>();
-            //services.AddTransient<MyPopup>();
-            services.AddTransient<MyPopup, MyPopupViewModel>();
+            services.AddTransientPopup<MyPopup, MyPopupViewModel>();
         }
     }
 }

@@ -1,16 +1,39 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui;
+using CommunityToolkit.Mvvm.Input;
 
 namespace MauiApp1
 {
+    [QueryProperty(nameof(Message), nameof(Message))]
     public partial class MyPopupViewModel : BaseViewModel
     {
-        public MyPopupViewModel()
+        IPopupService _popupService;
+        public MyPopupViewModel(IPopupService popupService)
         {
             Title = "My Popup";
-            Message = "This is a popup message!";
+            _popupService = popupService;
         }
 
-        [ObservableProperty]
-        string message;
+        private string message;
+        public string Message
+        {
+            get => message;
+            set
+            {
+                message = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [RelayCommand]
+        async Task OnCloseAsync()
+        {
+            await _popupService.ClosePopupAsync(Shell.Current, new SurveyResults
+            {
+                Name = "Johnny Bravo",
+                Email = "johnny@CoolestGuyOnEarth.com",
+                Rating = 5,
+                Comments = "Way to go!"
+            });
+        }
     }
 }
